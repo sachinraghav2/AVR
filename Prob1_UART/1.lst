@@ -1,0 +1,232 @@
+   1               		.file	"1.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  71               	.global	__vector_1
+  73               	__vector_1:
+   1:1.c           **** // ***********************************************************
+   2:1.c           **** 
+   3:1.c           **** /*Prob6.1. Write a assembly code to receive data from UART & transmit it back by adding one to it.
+   4:1.c           **** a. Baud Rate = 9600
+   5:1.c           **** b. 8 bit data
+   6:1.c           **** c. Single Stop Bit
+   7:1.c           **** Do the same by writing the code in C .*/
+   8:1.c           **** 
+   9:1.c           **** // ***********************************************************
+  10:1.c           **** 
+  11:1.c           **** 
+  12:1.c           **** 
+  13:1.c           **** #include <avr\io.h>              // Most basic include files
+  14:1.c           **** #include <avr\interrupt.h>       // Add the necessary ones
+  15:1.c           **** #include <avr\signal.h>          // here
+  16:1.c           **** 
+  17:1.c           **** 
+  18:1.c           **** // Interrupt handler example for INT0
+  19:1.c           **** 
+  20:1.c           **** 
+  21:1.c           **** SIGNAL(SIG_INTERRUPT0) {
+  74               	 r0,__SREG__
+  75               		push r0
+  76               		clr __zero_reg__
+  77 0000 1F92      		push r29
+  78 0002 0F92      		push r28
+  79 0004 0FB6      		in r28,__SP_L__
+  80 0006 0F92      		in r29,__SP_H__
+  81 0008 1124      	/* prologue: Signal */
+  82 000a DF93      	/* frame size = 0 */
+  83 000c CF93      	/* epilogue start */
+  85 0010 DEB7      	.LM1:
+  86               		pop r28
+  87               		pop r29
+  88               		pop r0
+  22:1.c           **** 
+  23:1.c           **** 
+  24:1.c           **** 
+  25:1.c           **** }
+  89               	9,__SP_H__
+  90               	/* prologue: Signal */
+  91 0012 CF91      	/* frame size = 0 */
+  92 0014 DF91      	/* epilogue start */
+  94 0018 0FBE      	.LM1:
+  95 001a 0F90      		pop r28
+  96 001c 1F90      		pop r29
+  97 001e 1895      		pop r0
+  98               		out __SREG__,r0
+  99               		pop r0
+ 100               		pop __zero_reg__
+ 101               		reti
+ 103               	.Lscope1:
+  26:1.c           **** 
+  27:1.c           **** 
+  28:1.c           **** // ***********************************************************
+  29:1.c           **** 
+  30:1.c           **** // Main program
+  31:1.c           **** 
+  32:1.c           **** //
+  33:1.c           **** 
+  34:1.c           **** void uart_init(void)
+  35:1.c           **** {
+ 104               	.LFBB1
+ 105               	.LM1:
+ 106               		pop r28
+ 107 0020 DF93      		pop r29
+ 108 0022 CF93      		pop r0
+ 109 0024 CDB7      		out __SREG__,r0
+ 110 0026 DEB7      		pop r0
+ 111               		pop __zero_reg__
+ 112               		reti
+  36:1.c           **** 
+  37:1.c           **** 	UBRRL= 0x33;
+ 113               	/
+ 114               	/* epilogue start */
+ 116 002a F0E0      	.LM1:
+ 117 002c 83E3      		pop r28
+ 118 002e 8083      		pop r29
+  38:1.c           **** 	UCSRB = (1<<TXEN) | (1<<RXEN);
+ 119               	__
+ 120               		in r29,__SP_H__
+ 121 0030 EAE2      	/* prologue: Signal */
+ 122 0032 F0E0      	/* frame size = 0 */
+ 123 0034 88E1      	/* epilogue start */
+  39:1.c           **** 	UCSRC = (1<<UCSZ0) | (1<<UCSZ1) | (1<<URSEL);
+ 125               	29
+ 126               		push r28
+ 127 0038 E0E4      		in r28,__SP_L__
+ 128 003a F0E0      		in r29,__SP_H__
+ 129 003c 86E8      	/* prologue: Signal */
+ 130 003e 8083      	/* frame size = 0 */
+ 131               	/* epilogue start */
+  40:1.c           **** }
+ 132               	 r0
+ 133               		clr __zero_reg__
+ 134 0040 CF91      		push r29
+ 135 0042 DF91      		push r28
+ 136 0044 0895      		in r28,__SP_L__
+ 137               		in r29,__SP_H__
+ 138               	/* prologue: Signal */
+ 139               	/* frame size = 0 */
+ 140               	/* epilogue start */
+ 142               	.LM1:
+ 143               		pop r28
+  41:1.c           **** 
+  42:1.c           **** void uart_send(unsigned char ch)
+  43:1.c           **** {
+ 144               	r28,__SP_L__
+ 145               		in r29,__SP_H__
+ 146               	/* prologue: Signal */
+ 147 0046 DF93      	/* frame size = 0 */
+ 148 0048 CF93      	/* epilogue start */
+ 150 004c CDB7      	.LM1:
+ 151 004e DEB7      		pop r28
+ 152               		pop r29
+ 153               		pop r0
+ 154 0050 8983      		out __SREG__,r0
+ 155               		pop r0
+  44:1.c           **** 
+  45:1.c           **** 	while( ! ( UCSRA & (1<<UDRE ) ) );
+ 156               	nal */
+ 157               	/* frame size = 0 */
+ 158 0052 EBE2      	/* epilogue start */
+ 160 0056 8081      	.LM1:
+ 161 0058 882F      		pop r28
+ 162 005a 90E0      		pop r29
+ 163 005c 8072      		pop r0
+ 164 005e 9070      		out __SREG__,r0
+ 165 0060 0097      		pop r0
+ 166 0062 01F0      		pop __zero_reg__
+  46:1.c           **** 	UDR = ch;
+ 167               	e = 0 */
+ 168               	/* epilogue start */
+ 170 0066 F0E0      	.LM1:
+ 171 0068 8981      		pop r28
+ 172 006a 8083      		pop r29
+ 173               		pop r0
+  47:1.c           **** 
+  48:1.c           **** }
+ 174               	9,__SP_H__
+ 175               	/* prologue: Signal */
+ 176 006c 0F90      	/* frame size = 0 */
+ 177 006e CF91      	/* epilogue start */
+ 179 0072 0895      	.LM1:
+ 180               		pop r28
+ 181               		pop r29
+ 182               		pop r0
+ 183               		out __SREG__,r0
+ 184               		pop r0
+ 185               		pop __zero_reg__
+  49:1.c           **** 
+  50:1.c           **** int main(void)
+  51:1.c           **** {
+ 186               	e = 0 */
+ 187               	/* epilogue start */
+ 189 0074 DF93      	.LM1:
+ 190 0076 CF93      		pop r28
+ 191 0078 0F92      		pop r29
+ 192 007a CDB7      		pop r0
+ 193 007c DEB7      		out __SREG__,r0
+ 194               		pop r0
+ 195               		pop __zero_reg__
+  52:1.c           ****      unsigned char ch;
+  53:1.c           ****      uart_init() ;
+ 196               	e = 0 */
+ 197               	/* epilogue start */
+ 199               	.LM1:
+  54:1.c           **** 
+  55:1.c           ****    while(1)
+  56:1.c           ****     {             // Infinite loop; define here the
+  57:1.c           **** 
+  58:1.c           ****      while( ! ( UCSRA & (1<<RXC ) ) );
+ 200               	h r28
+ 201               		in r28,__SP_L__
+ 202 0080 EBE2      		in r29,__SP_H__
+ 203 0082 F0E0      	/* prologue: Signal */
+ 204 0084 8081      	/* frame size = 0 */
+ 205 0086 8823      	/* epilogue start */
+  59:1.c           ****      ch = UDR;
+ 207               	29
+ 208               		push r28
+ 209 008a ECE2      		in r28,__SP_L__
+ 210 008c F0E0      		in r29,__SP_H__
+ 211 008e 8081      	/* prologue: Signal */
+ 212 0090 8983      	/* frame size = 0 */
+  60:1.c           ****      ch += 1;
+ 213               	
+ 214               		in r0,__SREG__
+ 215 0092 8981      		push r0
+ 216 0094 8F5F      		clr __zero_reg__
+ 217 0096 8983      		push r29
+  61:1.c           ****      uart_send( ch );
+ 218               	, @function
+ 219               	__vector_1:
+ 221 009a 00D0      	.LM0:
+ 222 009c 00C0      	.LFBB1:
+ 223               		push __zero_reg__
+ 224               		push r0
+ 225               		in r0,__SREG__
+ 226               		push r0
+ 227               		clr __zero_reg__
+ 228               		push r29
+ 229               		push r28
+DEFINED SYMBOLS
+                            *ABS*:00000000 1.c
+C:\users\batch2\Temp/ccfnHH0e.s:2      *ABS*:0000003f __SREG__
+C:\users\batch2\Temp/ccfnHH0e.s:3      *ABS*:0000003e __SP_H__
+C:\users\batch2\Temp/ccfnHH0e.s:4      *ABS*:0000003d __SP_L__
+C:\users\batch2\Temp/ccfnHH0e.s:5      *ABS*:00000034 __CCP__
+C:\users\batch2\Temp/ccfnHH0e.s:6      *ABS*:00000000 __tmp_reg__
+C:\users\batch2\Temp/ccfnHH0e.s:7      *ABS*:00000001 __zero_reg__
+C:\users\batch2\Temp/ccfnHH0e.s:73     .text:00000000 __vector_1
+C:\users\batch2\Temp/ccfnHH0e.s:103    .text:00000020 uart_init
+C:\users\batch2\Temp/ccfnHH0e.s:143    .text:00000046 uart_send
+C:\users\batch2\Temp/ccfnHH0e.s:185    .text:00000074 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
