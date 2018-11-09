@@ -1,0 +1,243 @@
+
+5.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000162  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000004  00800060  00000162  000001d6  2**0
+                  ALLOC
+  2 .stab         000003f0  00000000  00000000  000001d8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      0000066f  00000000  00000000  000005c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	2c c0       	rjmp	.+88     	; 0x5c <__bad_interrupt>
+   4:	2b c0       	rjmp	.+86     	; 0x5c <__bad_interrupt>
+   6:	2b c0       	rjmp	.+86     	; 0x5e <__vector_3>
+   8:	29 c0       	rjmp	.+82     	; 0x5c <__bad_interrupt>
+   a:	28 c0       	rjmp	.+80     	; 0x5c <__bad_interrupt>
+   c:	27 c0       	rjmp	.+78     	; 0x5c <__bad_interrupt>
+   e:	26 c0       	rjmp	.+76     	; 0x5c <__bad_interrupt>
+  10:	25 c0       	rjmp	.+74     	; 0x5c <__bad_interrupt>
+  12:	24 c0       	rjmp	.+72     	; 0x5c <__bad_interrupt>
+  14:	23 c0       	rjmp	.+70     	; 0x5c <__bad_interrupt>
+  16:	22 c0       	rjmp	.+68     	; 0x5c <__bad_interrupt>
+  18:	21 c0       	rjmp	.+66     	; 0x5c <__bad_interrupt>
+  1a:	20 c0       	rjmp	.+64     	; 0x5c <__bad_interrupt>
+  1c:	1f c0       	rjmp	.+62     	; 0x5c <__bad_interrupt>
+  1e:	1e c0       	rjmp	.+60     	; 0x5c <__bad_interrupt>
+  20:	1d c0       	rjmp	.+58     	; 0x5c <__bad_interrupt>
+  22:	1c c0       	rjmp	.+56     	; 0x5c <__bad_interrupt>
+  24:	1b c0       	rjmp	.+54     	; 0x5c <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	e2 e6       	ldi	r30, 0x62	; 98
+  3a:	f1 e0       	ldi	r31, 0x01	; 1
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <.do_copy_data_start>
+
+0000003e <.do_copy_data_loop>:
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+
+00000042 <.do_copy_data_start>:
+  42:	a0 36       	cpi	r26, 0x60	; 96
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <.do_copy_data_loop>
+
+00000048 <__do_clear_bss>:
+  48:	10 e0       	ldi	r17, 0x00	; 0
+  4a:	a0 e6       	ldi	r26, 0x60	; 96
+  4c:	b0 e0       	ldi	r27, 0x00	; 0
+  4e:	01 c0       	rjmp	.+2      	; 0x52 <.do_clear_bss_start>
+
+00000050 <.do_clear_bss_loop>:
+  50:	1d 92       	st	X+, r1
+
+00000052 <.do_clear_bss_start>:
+  52:	a4 36       	cpi	r26, 0x64	; 100
+  54:	b1 07       	cpc	r27, r17
+  56:	e1 f7       	brne	.-8      	; 0x50 <.do_clear_bss_loop>
+  58:	3a d0       	rcall	.+116    	; 0xce <main>
+  5a:	81 c0       	rjmp	.+258    	; 0x15e <_exit>
+
+0000005c <__bad_interrupt>:
+  5c:	d1 cf       	rjmp	.-94     	; 0x0 <__vectors>
+
+0000005e <__vector_3>:
+int flag1,flag2;
+
+// Interrupt handler example for INT0
+
+
+ISR(TIMER2_COMP_vect) {
+  5e:	1f 92       	push	r1
+  60:	0f 92       	push	r0
+  62:	0f b6       	in	r0, 0x3f	; 63
+  64:	0f 92       	push	r0
+  66:	11 24       	eor	r1, r1
+  68:	2f 93       	push	r18
+  6a:	3f 93       	push	r19
+  6c:	8f 93       	push	r24
+  6e:	9f 93       	push	r25
+  70:	df 93       	push	r29
+  72:	cf 93       	push	r28
+  74:	cd b7       	in	r28, 0x3d	; 61
+  76:	de b7       	in	r29, 0x3e	; 62
+
+			flag1 ^= 1;
+  78:	20 91 62 00 	lds	r18, 0x0062
+  7c:	30 91 63 00 	lds	r19, 0x0063
+  80:	81 e0       	ldi	r24, 0x01	; 1
+  82:	90 e0       	ldi	r25, 0x00	; 0
+  84:	82 27       	eor	r24, r18
+  86:	93 27       	eor	r25, r19
+  88:	90 93 63 00 	sts	0x0063, r25
+  8c:	80 93 62 00 	sts	0x0062, r24
+
+			flag2++;
+  90:	80 91 60 00 	lds	r24, 0x0060
+  94:	90 91 61 00 	lds	r25, 0x0061
+  98:	01 96       	adiw	r24, 0x01	; 1
+  9a:	90 93 61 00 	sts	0x0061, r25
+  9e:	80 93 60 00 	sts	0x0060, r24
+
+			if(flag2 > 3)
+  a2:	80 91 60 00 	lds	r24, 0x0060
+  a6:	90 91 61 00 	lds	r25, 0x0061
+  aa:	84 30       	cpi	r24, 0x04	; 4
+  ac:	91 05       	cpc	r25, r1
+  ae:	24 f0       	brlt	.+8      	; 0xb8 <__vector_3+0x5a>
+	  		  flag2 = 0;
+  b0:	10 92 61 00 	sts	0x0061, r1
+  b4:	10 92 60 00 	sts	0x0060, r1
+
+}
+  b8:	cf 91       	pop	r28
+  ba:	df 91       	pop	r29
+  bc:	9f 91       	pop	r25
+  be:	8f 91       	pop	r24
+  c0:	3f 91       	pop	r19
+  c2:	2f 91       	pop	r18
+  c4:	0f 90       	pop	r0
+  c6:	0f be       	out	0x3f, r0	; 63
+  c8:	0f 90       	pop	r0
+  ca:	1f 90       	pop	r1
+  cc:	18 95       	reti
+
+000000ce <main>:
+// Main program
+
+
+
+int main(void)
+{
+  ce:	df 93       	push	r29
+  d0:	cf 93       	push	r28
+  d2:	cd b7       	in	r28, 0x3d	; 61
+  d4:	de b7       	in	r29, 0x3e	; 62
+
+		TCNT2 = 0;
+  d6:	e4 e4       	ldi	r30, 0x44	; 68
+  d8:	f0 e0       	ldi	r31, 0x00	; 0
+  da:	10 82       	st	Z, r1
+		OCR2 = 156;
+  dc:	e3 e4       	ldi	r30, 0x43	; 67
+  de:	f0 e0       	ldi	r31, 0x00	; 0
+  e0:	8c e9       	ldi	r24, 0x9C	; 156
+  e2:	80 83       	st	Z, r24
+		TCCR2 = (1<<CS22) | (1<<WGM21) ;
+  e4:	e5 e4       	ldi	r30, 0x45	; 69
+  e6:	f0 e0       	ldi	r31, 0x00	; 0
+  e8:	8c e0       	ldi	r24, 0x0C	; 12
+  ea:	80 83       	st	Z, r24
+		TIMSK = (1<<OCIE2);
+  ec:	e9 e5       	ldi	r30, 0x59	; 89
+  ee:	f0 e0       	ldi	r31, 0x00	; 0
+  f0:	80 e8       	ldi	r24, 0x80	; 128
+  f2:	80 83       	st	Z, r24
+		DDRB = 0xFF;
+  f4:	e7 e3       	ldi	r30, 0x37	; 55
+  f6:	f0 e0       	ldi	r31, 0x00	; 0
+  f8:	8f ef       	ldi	r24, 0xFF	; 255
+  fa:	80 83       	st	Z, r24
+		DDRD = 0xFF;
+  fc:	e1 e3       	ldi	r30, 0x31	; 49
+  fe:	f0 e0       	ldi	r31, 0x00	; 0
+ 100:	8f ef       	ldi	r24, 0xFF	; 255
+ 102:	80 83       	st	Z, r24
+		sei();
+ 104:	78 94       	sei
+
+      while(1)
+       {            // Infinite loop; define here the
+
+    		 if(flag1)
+ 106:	80 91 62 00 	lds	r24, 0x0062
+ 10a:	90 91 63 00 	lds	r25, 0x0063
+ 10e:	00 97       	sbiw	r24, 0x00	; 0
+ 110:	41 f0       	breq	.+16     	; 0x122 <main+0x54>
+           	PORTB |= 0x02;
+ 112:	a8 e3       	ldi	r26, 0x38	; 56
+ 114:	b0 e0       	ldi	r27, 0x00	; 0
+ 116:	e8 e3       	ldi	r30, 0x38	; 56
+ 118:	f0 e0       	ldi	r31, 0x00	; 0
+ 11a:	80 81       	ld	r24, Z
+ 11c:	82 60       	ori	r24, 0x02	; 2
+ 11e:	8c 93       	st	X, r24
+ 120:	07 c0       	rjmp	.+14     	; 0x130 <main+0x62>
+         else
+           	PORTB &= 0xFD;
+ 122:	a8 e3       	ldi	r26, 0x38	; 56
+ 124:	b0 e0       	ldi	r27, 0x00	; 0
+ 126:	e8 e3       	ldi	r30, 0x38	; 56
+ 128:	f0 e0       	ldi	r31, 0x00	; 0
+ 12a:	80 81       	ld	r24, Z
+ 12c:	8d 7f       	andi	r24, 0xFD	; 253
+ 12e:	8c 93       	st	X, r24
+
+     		if(flag2 <=1)
+ 130:	80 91 60 00 	lds	r24, 0x0060
+ 134:	90 91 61 00 	lds	r25, 0x0061
+ 138:	82 30       	cpi	r24, 0x02	; 2
+ 13a:	91 05       	cpc	r25, r1
+ 13c:	44 f4       	brge	.+16     	; 0x14e <main+0x80>
+        		PORTB |= 0x04;
+ 13e:	a8 e3       	ldi	r26, 0x38	; 56
+ 140:	b0 e0       	ldi	r27, 0x00	; 0
+ 142:	e8 e3       	ldi	r30, 0x38	; 56
+ 144:	f0 e0       	ldi	r31, 0x00	; 0
+ 146:	80 81       	ld	r24, Z
+ 148:	84 60       	ori	r24, 0x04	; 4
+ 14a:	8c 93       	st	X, r24
+ 14c:	dc cf       	rjmp	.-72     	; 0x106 <main+0x38>
+         else
+        		PORTB &= 0xFB;   			
+ 14e:	a8 e3       	ldi	r26, 0x38	; 56
+ 150:	b0 e0       	ldi	r27, 0x00	; 0
+ 152:	e8 e3       	ldi	r30, 0x38	; 56
+ 154:	f0 e0       	ldi	r31, 0x00	; 0
+ 156:	80 81       	ld	r24, Z
+ 158:	8b 7f       	andi	r24, 0xFB	; 251
+ 15a:	8c 93       	st	X, r24
+ 15c:	d4 cf       	rjmp	.-88     	; 0x106 <main+0x38>
+
+0000015e <_exit>:
+ 15e:	f8 94       	cli
+
+00000160 <__stop_program>:
+ 160:	ff cf       	rjmp	.-2      	; 0x160 <__stop_program>

@@ -1,0 +1,108 @@
+   1               		.file	"1.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  71               	.global	main
+  73               	main:
+   1:1.c           **** // ***********************************************************
+   2:1.c           **** 
+   3:1.c           **** //Prob9_10.1.....Write a code for SPI Master and Slave.ect:
+   4:1.c           **** 
+   5:1.c           **** 
+   6:1.c           **** // ***********************************************************
+   7:1.c           **** 
+   8:1.c           **** 
+   9:1.c           **** 
+  10:1.c           **** #include <avr\io.h>              // Most basic include files
+  11:1.c           **** #include <avr\interrupt.h>       // Add the necessary ones
+  12:1.c           **** #include <avr\signal.h>          // here
+  13:1.c           **** 
+  14:1.c           **** 
+  15:1.c           **** 
+  16:1.c           **** // ***********************************************************
+  17:1.c           **** 
+  18:1.c           **** // Main program
+  19:1.c           **** 
+  20:1.c           **** 
+  21:1.c           **** int main(void)
+  22:1.c           **** {
+  74               	,36,0,0,main
+  75               	.global	main
+  77 0000 DF93      	main:
+  79 0004 CDB7      	.LM0:
+  80 0006 DEB7      	.LFBB1:
+  81               		push r29
+  82               		push r28
+  23:1.c           **** 
+  24:1.c           **** 		DDRB = (1<<3) | (1<<5);
+  83               	,22,.LM0-.LFBB1
+  84               	.LM0:
+  85 0008 E7E3      	.LFBB1:
+  86 000a F0E0      		push r29
+  87 000c 88E2      		push r28
+  88 000e 8083      		in r28,__SP_L__
+  25:1.c           **** 		DDRD = 0xFF;
+  89               	M0:
+  90               	.LFBB1:
+  91 0010 E1E3      		push r29
+  92 0012 F0E0      		push r28
+  93 0014 8FEF      		in r28,__SP_L__
+  94 0016 8083      		in r29,__SP_H__
+  26:1.c           **** 		SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR0);
+  95               	r29
+  96               		push r28
+  97 0018 EDE2      		in r28,__SP_L__
+  98 001a F0E0      		in r29,__SP_H__
+  99 001c 81E5      	/* prologue: function */
+ 100 001e 8083      	/* frame size = 0 */
+  27:1.c           **** 
+  28:1.c           **** 		while(1)
+  29:1.c           **** 	   {
+  30:1.c           **** 
+  31:1.c           ****  			SPDR = 'A';
+ 102               	rame size = 0 */
+ 104 0020 EFE2      	.LM1:
+ 105 0022 F0E0      		ldi r30,lo8(55)
+ 106 0024 81E4      		ldi r31,hi8(55)
+ 107 0026 8083      		ldi r24,lo8(40)
+ 108               		st Z,r24
+  32:1.c           **** 
+  33:1.c           **** 			while( ! ( SPSR & (1<<SPIF ) ) );
+ 109               	 r31,hi8(55)
+ 110               		ldi r24,lo8(40)
+ 111 0028 EEE2      		st Z,r24
+ 113 002c 8081      	.LM2:
+ 114 002e 8823      		ldi r30,lo8(49)
+ 115 0030 04F4      		ldi r31,hi8(49)
+  34:1.c           **** 		      	PORTD = SPDR;
+ 116               	:
+ 117               		ldi r30,lo8(49)
+ 118 0032 E2E3      		ldi r31,hi8(49)
+ 119 0034 F0E0      		ldi r24,lo8(-1)
+ 120 0036 AFE2      		st Z,r24
+ 122 003a 8C91      	.LM3:
+ 123 003c 8083      		ldi r30,lo8(45)
+ 124 003e 00C0      		ldi r31,hi8(45)
+ 125               		ldi r24,lo8(81)
+ 126               		st Z,r24
+ 127               	.L3:
+DEFINED SYMBOLS
+                            *ABS*:00000000 1.c
+C:\users\batch2\Temp/cc5SWGui.s:2      *ABS*:0000003f __SREG__
+C:\users\batch2\Temp/cc5SWGui.s:3      *ABS*:0000003e __SP_H__
+C:\users\batch2\Temp/cc5SWGui.s:4      *ABS*:0000003d __SP_L__
+C:\users\batch2\Temp/cc5SWGui.s:5      *ABS*:00000034 __CCP__
+C:\users\batch2\Temp/cc5SWGui.s:6      *ABS*:00000000 __tmp_reg__
+C:\users\batch2\Temp/cc5SWGui.s:7      *ABS*:00000001 __zero_reg__
+C:\users\batch2\Temp/cc5SWGui.s:73     .text:00000000 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

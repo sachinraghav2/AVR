@@ -1,0 +1,225 @@
+   1               		.file	"5.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  71               	.global	__vector_3
+  73               	__vector_3:
+   1:5.c           **** // ***********************************************************
+   2:5.c           **** 
+   3:5.c           **** 
+   4:5.c           **** //Prob 4.5....Write a code to generate square wave at the output of pin OC1A of frequency f1 andexa
+   5:5.c           **** 
+   6:5.c           **** // ***********************************************************
+   7:5.c           **** 
+   8:5.c           **** 
+   9:5.c           **** 
+  10:5.c           **** #include <avr\io.h>              // Most basic include files
+  11:5.c           **** #include <avr\interrupt.h>       // Add the necessary ones
+  12:5.c           **** #include <avr\signal.h>          // here
+  13:5.c           **** 
+  14:5.c           **** 
+  15:5.c           **** // Define here the global static variables
+  16:5.c           **** 
+  17:5.c           **** int flag1,flag2;
+  18:5.c           **** 
+  19:5.c           **** // Interrupt handler example for INT0
+  20:5.c           **** 
+  21:5.c           **** 
+  22:5.c           **** ISR(TIMER2_COMP_vect) {
+  74               	 r0,__SREG__
+  75               		push r0
+  76               		clr __zero_reg__
+  77 0000 1F92      		push r18
+  78 0002 0F92      		push r19
+  79 0004 0FB6      		push r24
+  80 0006 0F92      		push r25
+  81 0008 1124      		push r29
+  82 000a 2F93      		push r28
+  83 000c 3F93      		in r28,__SP_L__
+  84 000e 8F93      		in r29,__SP_H__
+  85 0010 9F93      	/* prologue: Signal */
+  86 0012 DF93      	/* frame size = 0 */
+  88 0016 CDB7      	.LM1:
+  89 0018 DEB7      		lds r18,flag1
+  90               		lds r19,(flag1)+1
+  91               		ldi r24,lo8(1)
+  23:5.c           **** 
+  24:5.c           **** 			flag1 ^= 1;
+  92               	 r28,__SP_L__
+  93               		in r29,__SP_H__
+  94 001a 2091 0000 	/* prologue: Signal */
+  95 001e 3091 0000 	/* frame size = 0 */
+  97 0024 90E0      	.LM1:
+  98 0026 8227      		lds r18,flag1
+  99 0028 9327      		lds r19,(flag1)+1
+ 100 002a 9093 0000 		ldi r24,lo8(1)
+ 101 002e 8093 0000 		ldi r25,hi8(1)
+  25:5.c           **** 
+  26:5.c           **** 			flag2++;
+ 102               	 r29,__SP_H__
+ 103               	/* prologue: Signal */
+ 104 0032 8091 0000 	/* frame size = 0 */
+ 106 003a 0196      	.LM1:
+ 107 003c 9093 0000 		lds r18,flag1
+ 108 0040 8093 0000 		lds r19,(flag1)+1
+  27:5.c           **** 
+  28:5.c           **** 			if(flag2 > 3)
+ 109               	r29
+ 110               		push r28
+ 111 0044 8091 0000 		in r28,__SP_L__
+ 112 0048 9091 0000 		in r29,__SP_H__
+ 113 004c 8430      	/* prologue: Signal */
+ 114 004e 9105      	/* frame size = 0 */
+  29:5.c           **** 	  		  flag2 = 0;
+ 116               	sh r18
+ 117               		push r19
+ 118 0052 1092 0000 		push r24
+ 119 0056 1092 0000 		push r25
+ 120               		push r29
+ 121               		push r28
+  30:5.c           **** 
+  31:5.c           **** }
+ 122               	bn	68,0,22,.LM0-.LFBB1
+ 123               	.LM0:
+ 124 005a CF91      	.LFBB1:
+ 125 005c DF91      		push __zero_reg__
+ 126 005e 9F91      		push r0
+ 127 0060 8F91      		in r0,__SREG__
+ 128 0062 3F91      		push r0
+ 129 0064 2F91      		clr __zero_reg__
+ 130 0066 0F90      		push r18
+ 131 0068 0FBE      		push r19
+ 132 006a 0F90      		push r24
+ 133 006c 1F90      		push r25
+ 134 006e 1895      		push r29
+ 135               		push r28
+ 136               		in r28,__SP_L__
+ 137               		in r29,__SP_H__
+ 138               	/* prologue: Signal */
+ 139               	/* frame size = 0 */
+  32:5.c           **** 
+  33:5.c           **** 
+  34:5.c           **** 
+  35:5.c           **** // ***********************************************************
+  36:5.c           **** 
+  37:5.c           **** // Main program
+  38:5.c           **** 
+  39:5.c           **** 
+  40:5.c           **** 
+  41:5.c           **** int main(void)
+  42:5.c           **** {
+ 141               	sh r18
+ 142               		push r19
+ 143               		push r24
+ 144 0070 DF93      		push r25
+ 145 0072 CF93      		push r29
+ 146 0074 CDB7      		push r28
+ 147 0076 DEB7      		in r28,__SP_L__
+ 148               		in r29,__SP_H__
+ 149               	/* prologue: Signal */
+  43:5.c           **** 
+  44:5.c           **** 		TCNT2 = 0;
+ 150               	h r0
+ 151               		in r0,__SREG__
+ 152 0078 E4E4      		push r0
+ 153 007a F0E0      		clr __zero_reg__
+ 154 007c 1082      		push r18
+  45:5.c           **** 		OCR2 = 156;
+ 155               	vector_3
+ 157 007e E3E4      	__vector_3:
+ 159 0082 8CE9      	.LM0:
+ 160 0084 8083      	.LFBB1:
+  46:5.c           **** 		TCCR2 = (1<<CS22) | (1<<WGM21) ;
+ 161               	n	162,0,0,0
+ 164 0088 F0E0      	.global	__vector_3
+ 166 008c 8083      	__vector_3:
+  47:5.c           **** 		TIMSK = (1<<OCIE2);
+ 167               	0,11),0,8;high:(0,11),8,8;;",128,0,0,0
+ 171 0092 80E8      	.global	__vector_3
+  48:5.c           **** 		DDRB = 0xFF;
+ 173               	(5,2)=s2low:(0,11),0,8;high:(0,11),8,8;;",128,0,0,0
+ 177 009a 8FEF      	.global	__vector_3
+  49:5.c           **** 		DDRD = 0xFF;
+ 179               	(5,2)=s2low:(0,11),0,8;high:(0,11),8,8;;",128,0,0,0
+ 183 00a2 8FEF      	.global	__vector_3
+  50:5.c           **** 		sei();
+ 185               	(5,2)=s2low:(0,11),0,8;high:(0,11),8,8;;",128,0,0,0
+ 189 00a6 7894      	.global	__vector_3
+ 191               	__vector_3:
+  51:5.c           **** 
+  52:5.c           ****       while(1)
+  53:5.c           ****        {            // Infinite loop; define here the
+  54:5.c           **** 
+  55:5.c           ****     		 if(flag1)
+ 193               	128,0,0,0
+ 197 00b0 0097      	.global	__vector_3
+  56:5.c           ****            	PORTB |= 0x02;
+ 199               	(5,2)=s2low:(0,11),0,8;high:(0,11),8,8;;",128,0,0,0
+ 203 00b8 E8E3      	.global	__vector_3
+ 205 00bc 8081      	__vector_3:
+ 207 00c0 8C93      	.LM0:
+ 208 00c2 00C0      	.LFBB1:
+ 209               		push __zero_reg__
+  57:5.c           ****          else
+  58:5.c           ****            	PORTB &= 0xFD;
+ 210               	162,0,0,0
+ 212 00c4 A8E3      	.global	__vector_3
+ 214 00c8 E8E3      	__vector_3:
+ 216 00cc 8081      	.LM0:
+ 217 00ce 8D7F      	.LFBB1:
+ 218 00d0 8C93      		push __zero_reg__
+ 219               		push r0
+  59:5.c           **** 
+  60:5.c           ****      		if(flag2 <=1)
+ 221               	.global	__vector_3
+ 223 00d6 9091 0000 	__vector_3:
+ 225 00dc 9105      	.LM0:
+ 226 00de 04F4      	.LFBB1:
+  61:5.c           ****         		PORTB |= 0x04;
+ 227               	n	162,0,0,0
+ 230 00e2 B0E0      	.global	__vector_3
+ 232 00e6 F0E0      	__vector_3:
+ 234 00ea 8460      	.LM0:
+ 235 00ec 8C93      	.LFBB1:
+ 236 00ee 00C0      		push __zero_reg__
+ 237               		push r0
+  62:5.c           ****          else
+  63:5.c           ****         		PORTB &= 0xFB;   			
+ 239               	.global	__vector_3
+ 241 00f2 B0E0      	__vector_3:
+ 243 00f6 F0E0      	.LM0:
+ 244 00f8 8081      	.LFBB1:
+ 245 00fa 8B7F      		push __zero_reg__
+ 246 00fc 8C93      		push r0
+ 247 00fe 00C0      		in r0,__SREG__
+ 248               		push r0
+ 249               		clr __zero_reg__
+ 250               		push r18
+ 251               		push r19
+ 252               		push r24
+ 253               		push r25
+ 254               		push r29
+ 255               		push r28
+DEFINED SYMBOLS
+                            *ABS*:00000000 5.c
+C:\users\batch2\Temp/ccaOVfMp.s:2      *ABS*:0000003f __SREG__
+C:\users\batch2\Temp/ccaOVfMp.s:3      *ABS*:0000003e __SP_H__
+C:\users\batch2\Temp/ccaOVfMp.s:4      *ABS*:0000003d __SP_L__
+C:\users\batch2\Temp/ccaOVfMp.s:5      *ABS*:00000034 __CCP__
+C:\users\batch2\Temp/ccaOVfMp.s:6      *ABS*:00000000 __tmp_reg__
+C:\users\batch2\Temp/ccaOVfMp.s:7      *ABS*:00000001 __zero_reg__
+C:\users\batch2\Temp/ccaOVfMp.s:73     .text:00000000 __vector_3
+                            *COM*:00000002 flag1
+                            *COM*:00000002 flag2
+C:\users\batch2\Temp/ccaOVfMp.s:140    .text:00000070 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
