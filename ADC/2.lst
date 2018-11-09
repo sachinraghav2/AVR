@@ -1,0 +1,191 @@
+   1               		.file	"2.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  71               	.global	__vector_14
+  73               	__vector_14:
+   1:2.c           **** // ***********************************************************
+   2:2.c           **** 
+   3:2.c           **** //Prob 8.1....Study the ADC Interface and Write a code for ADC using AVR Micro controller. Sample t
+   4:2.c           **** 
+   5:2.c           **** // ***********************************************************
+   6:2.c           **** 
+   7:2.c           **** 
+   8:2.c           **** 
+   9:2.c           **** #include <avr\io.h>              // Most basic include files
+  10:2.c           **** #include <avr\interrupt.h>       // Add the necessary ones
+  11:2.c           **** #include <avr\signal.h>          // here
+  12:2.c           **** 
+  13:2.c           **** 
+  14:2.c           **** 
+  15:2.c           **** // Interrupt handler example for INT0
+  16:2.c           **** 
+  17:2.c           **** 
+  18:2.c           **** ISR(ADC_vect) {
+  74               	 r0,__SREG__
+  75               		push r0
+  76               		clr __zero_reg__
+  77 0000 1F92      		push r24
+  78 0002 0F92      		push r26
+  79 0004 0FB6      		push r27
+  80 0006 0F92      		push r30
+  81 0008 1124      		push r31
+  82 000a 8F93      		push r29
+  83 000c AF93      		push r28
+  84 000e BF93      		in r28,__SP_L__
+  85 0010 EF93      		in r29,__SP_H__
+  86 0012 FF93      	/* prologue: Signal */
+  87 0014 DF93      	/* frame size = 0 */
+  89 0018 CDB7      	.LM1:
+  90 001a DEB7      		ldi r26,lo8(56)
+  91               		ldi r27,hi8(56)
+  92               		ldi r30,lo8(36)
+  19:2.c           **** 
+  20:2.c           **** 		 PORTB = ADCL;
+  93               	 frame size = 0 */
+  95 001c A8E3      	.LM1:
+  96 001e B0E0      		ldi r26,lo8(56)
+  97 0020 E4E2      		ldi r27,hi8(56)
+  98 0022 F0E0      		ldi r30,lo8(36)
+  99 0024 8081      		ldi r31,hi8(36)
+ 100 0026 8C93      		ld r24,Z
+  21:2.c           **** 		 PORTD = ADCH;
+ 101               	,0,20,.LM1-.LFBB1
+ 102               	.LM1:
+ 103 0028 A2E3      		ldi r26,lo8(56)
+ 104 002a B0E0      		ldi r27,hi8(56)
+ 105 002c E5E2      		ldi r30,lo8(36)
+ 106 002e F0E0      		ldi r31,hi8(36)
+ 107 0030 8081      		ld r24,Z
+ 108 0032 8C93      		st X,r24
+  22:2.c           **** 	    ADCSRA  |=  (1<<ADSC);
+ 109               	.LFBB1
+ 110               	.LM1:
+ 111 0034 A6E2      		ldi r26,lo8(56)
+ 112 0036 B0E0      		ldi r27,hi8(56)
+ 113 0038 E6E2      		ldi r30,lo8(36)
+ 114 003a F0E0      		ldi r31,hi8(36)
+ 115 003c 8081      		ld r24,Z
+ 116 003e 8064      		st X,r24
+ 118               	.LM2:
+  23:2.c           **** }
+ 119               	27,hi8(56)
+ 120               		ldi r30,lo8(36)
+ 121 0042 CF91      		ldi r31,hi8(36)
+ 122 0044 DF91      		ld r24,Z
+ 123 0046 FF91      		st X,r24
+ 125 004a BF91      	.LM2:
+ 126 004c AF91      		ldi r26,lo8(50)
+ 127 004e 8F91      		ldi r27,hi8(50)
+ 128 0050 0F90      		ldi r30,lo8(37)
+ 129 0052 0FBE      		ldi r31,hi8(37)
+ 130 0054 0F90      		ld r24,Z
+ 131 0056 1F90      		st X,r24
+ 133               	.LM3:
+ 134               		ldi r26,lo8(38)
+ 135               		ldi r27,hi8(38)
+ 136               		ldi r30,lo8(38)
+ 137               		ldi r31,hi8(38)
+ 138               		ld r24,Z
+  24:2.c           **** 
+  25:2.c           **** 
+  26:2.c           **** // ***********************************************************
+  27:2.c           **** 
+  28:2.c           **** // Main program
+  29:2.c           **** 
+  30:2.c           **** 
+  31:2.c           **** int main(void)
+  32:2.c           **** {
+ 139               	1
+ 140               	.LM3:
+ 141               		ldi r26,lo8(38)
+ 142 005a DF93      		ldi r27,hi8(38)
+ 143 005c CF93      		ldi r30,lo8(38)
+ 144 005e CDB7      		ldi r31,hi8(38)
+ 145 0060 DEB7      		ld r24,Z
+ 146               		ori r24,lo8(64)
+ 147               		st X,r24
+  33:2.c           **** 
+  34:2.c           **** 	DDRB = 0xFF;
+ 148               	 r27,hi8(38)
+ 149               		ldi r30,lo8(38)
+ 150 0062 E7E3      		ldi r31,hi8(38)
+ 151 0064 F0E0      		ld r24,Z
+ 152 0066 8FEF      		ori r24,lo8(64)
+ 153 0068 8083      		st X,r24
+  35:2.c           **** 	DDRD = 0xFF;
+ 154               	 r27,hi8(38)
+ 155               		ldi r30,lo8(38)
+ 156 006a E1E3      		ldi r31,hi8(38)
+ 157 006c F0E0      		ld r24,Z
+ 158 006e 8FEF      		ori r24,lo8(64)
+ 159 0070 8083      		st X,r24
+  36:2.c           **** 	DDRC = 0x00;
+ 160               	 r27,hi8(38)
+ 161               		ldi r30,lo8(38)
+ 162 0072 E4E3      		ldi r31,hi8(38)
+ 163 0074 F0E0      		ld r24,Z
+ 164 0076 1082      		ori r24,lo8(64)
+  37:2.c           **** 
+  38:2.c           **** //	PORTC=0x01;
+  39:2.c           **** 
+  40:2.c           **** 	ADMUX = (1<<REFS0);
+ 165               	o8(38)
+ 166               		ldi r27,hi8(38)
+ 167 0078 E7E2      		ldi r30,lo8(38)
+ 168 007a F0E0      		ldi r31,hi8(38)
+ 169 007c 80E4      		ld r24,Z
+ 170 007e 8083      		ori r24,lo8(64)
+  41:2.c           **** 	ADCSRA  |=  (1<<ADPS1)   |  (1<<ADPS0);
+ 171               	o8(38)
+ 172               		ldi r27,hi8(38)
+ 173 0080 A6E2      		ldi r30,lo8(38)
+ 174 0082 B0E0      		ldi r31,hi8(38)
+ 175 0084 E6E2      		ld r24,Z
+ 176 0086 F0E0      		ori r24,lo8(64)
+ 177 0088 8081      		st X,r24
+ 178 008a 8360      	/* epilogue start */
+  42:2.c           **** 	ADCSRA  |= (1<<ADIE)  |  (1<<ADSC)  |  (1<<ADEN); 	
+ 180               	r24,Z
+ 181               		ori r24,lo8(64)
+ 182 008e A6E2      		st X,r24
+ 183 0090 B0E0      	/* epilogue start */
+ 185 0094 F0E0      	.LM4:
+ 186 0096 8081      		pop r28
+ 187 0098 886C      		pop r29
+ 188 009a 8C93      		pop r31
+  43:2.c           **** 
+  44:2.c           **** 	sei();	
+ 189               	pilogue start */
+ 191               	.LM4:
+ 192               		pop r28
+ 193 009c 7894      		pop r29
+ 194               		pop r31
+ 195               		pop r30
+ 196               		pop r27
+ 197 009e 00C0      		pop r26
+ 198               		pop r24
+ 199               		pop r0
+ 200               		out __SREG__,r0
+ 201               		pop r0
+DEFINED SYMBOLS
+                            *ABS*:00000000 2.c
+C:\users\batch2\Temp/ccgtOwg8.s:2      *ABS*:0000003f __SREG__
+C:\users\batch2\Temp/ccgtOwg8.s:3      *ABS*:0000003e __SP_H__
+C:\users\batch2\Temp/ccgtOwg8.s:4      *ABS*:0000003d __SP_L__
+C:\users\batch2\Temp/ccgtOwg8.s:5      *ABS*:00000034 __CCP__
+C:\users\batch2\Temp/ccgtOwg8.s:6      *ABS*:00000000 __tmp_reg__
+C:\users\batch2\Temp/ccgtOwg8.s:7      *ABS*:00000001 __zero_reg__
+C:\users\batch2\Temp/ccgtOwg8.s:73     .text:00000000 __vector_14
+C:\users\batch2\Temp/ccgtOwg8.s:138    .text:0000005a main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
