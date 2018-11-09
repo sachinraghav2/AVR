@@ -1,0 +1,17 @@
+Creating   '2.eep'
+Creating   '2.hex'
+Creating   '2.obj'
+Creating   '2.lis'
+Creating   '2.map'
+
+Assembling '2.asm'
+Including  'C:\VMLAB\include\m8def.inc'
+
+Program memory usage:
+Code             :   37 words
+Constants (dw/db):    0 words
+Unused           :    0 words
+Total            :   37 words
+
+Assembly complete with no errors.
+Deleting   '2.eep'

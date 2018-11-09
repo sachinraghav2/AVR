@@ -1,0 +1,173 @@
+   1               		.file	"2.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  71               	.global	__vector_1
+  73               	__vector_1:
+   1:2.c           **** // ***********************************************************
+   2:2.c           **** /*Write a program to generate external interrupt on Int0 (PD2) pin of atmega8 controller .
+   3:2.c           **** In the interrupt handler toggle LED connected to PD4 every time an interrupt is
+   4:2.c           **** generated .
+   5:2.c           **** Implementation of the code should be done both in  C .*/
+   6:2.c           **** 
+   7:2.c           **** // ***********************************************************
+   8:2.c           **** 
+   9:2.c           **** 
+  10:2.c           **** 
+  11:2.c           **** #include <avr\io.h>              // Most basic include files
+  12:2.c           **** #include <avr\interrupt.h>       // Add the necessary ones
+  13:2.c           **** 
+  14:2.c           **** 
+  15:2.c           **** // Define here the global static variables
+  16:2.c           **** 
+  17:2.c           **** volatile int flag;
+  18:2.c           **** 
+  19:2.c           **** // Interrupt handler example for INT0
+  20:2.c           **** 
+  21:2.c           **** 
+  22:2.c           **** ISR(INT0_vect) {
+  74               	 r0,__SREG__
+  75               		push r0
+  76               		clr __zero_reg__
+  77 0000 1F92      		push r18
+  78 0002 0F92      		push r19
+  79 0004 0FB6      		push r24
+  80 0006 0F92      		push r25
+  81 0008 1124      		push r29
+  82 000a 2F93      		push r28
+  83 000c 3F93      		in r28,__SP_L__
+  84 000e 8F93      		in r29,__SP_H__
+  85 0010 9F93      	/* prologue: Signal */
+  86 0012 DF93      	/* frame size = 0 */
+  88 0016 CDB7      	.LM1:
+  89 0018 DEB7      		lds r24,flag
+  90               		lds r25,(flag)+1
+  91               		ldi r18,lo8(1)
+  23:2.c           **** 
+  24:2.c           ****         flag ^=1;
+  92               	0 */
+  94 001a 8091 0000 	.LM1:
+  95 001e 9091 0000 		lds r24,flag
+  96 0022 21E0      		lds r25,(flag)+1
+  97 0024 30E0      		ldi r18,lo8(1)
+  98 0026 8227      		ldi r19,hi8(1)
+  99 0028 9327      		eor r24,r18
+ 100 002a 9093 0000 		eor r25,r19
+ 101 002e 8093 0000 		sts (flag)+1,r25
+ 102               		sts flag,r24
+  25:2.c           **** 
+  26:2.c           **** }
+ 103               	,lo8(1)
+ 104               		ldi r19,hi8(1)
+ 105 0032 CF91      		eor r24,r18
+ 106 0034 DF91      		eor r25,r19
+ 107 0036 9F91      		sts (flag)+1,r25
+ 108 0038 8F91      		sts flag,r24
+ 109 003a 3F91      	/* epilogue start */
+ 111 003e 0F90      	.LM2:
+ 112 0040 0FBE      		pop r28
+ 113 0042 0F90      		pop r29
+ 114 0044 1F90      		pop r25
+ 115 0046 1895      		pop r24
+ 116               		pop r19
+ 117               		pop r18
+ 118               		pop r0
+ 119               		out __SREG__,r0
+ 120               		pop r0
+ 121               		pop __zero_reg__
+  27:2.c           **** 
+  28:2.c           **** 
+  29:2.c           **** // ***********************************************************
+  30:2.c           **** 
+  31:2.c           **** // Main program
+  32:2.c           **** 
+  33:2.c           **** 
+  34:2.c           **** int main(void)
+  35:2.c           **** {
+ 122               		pop r19
+ 123               		pop r18
+ 124               		pop r0
+ 125 0048 DF93      		out __SREG__,r0
+ 126 004a CF93      		pop r0
+ 127 004c CDB7      		pop __zero_reg__
+ 128 004e DEB7      		reti
+ 130               	.Lscope1:
+  36:2.c           **** 
+  37:2.c           **** 		DDRD = 0x10;
+ 131               		pop __zero_reg__
+ 132               		reti
+ 134 0052 F0E0      	.Lscope1:
+ 136 0056 8083      	.global	main
+  38:2.c           **** 		PORTD = 0x04;
+ 137               	ctor_1
+ 138               	.Lscope1:
+ 140 005a F0E0      	.global	main
+ 142 005e 8083      	main:
+  39:2.c           ****       GICR  = (1<<INT0);
+ 143               	F(0,1)",36,0,0,main
+ 144               	.global	main
+ 146 0062 F0E0      	main:
+ 148 0066 8083      	.LM3:
+  40:2.c           ****       sei();
+ 149               	ype	main, @function
+ 150               	main:
+ 152               	.LM3:
+ 153 0068 7894      	.LFBB2:
+ 154               		push r29
+ 155               		push r28
+ 156               		in r28,__SP_L__
+  41:2.c           **** 
+  42:2.c           ****    while(1)
+  43:2.c           ****     {             // Infinite loop; define here the
+  44:2.c           **** 
+  45:2.c           ****         if(flag)
+ 157               	FBB2
+ 158               	.LM3:
+ 159 006a 8091 0000 	.LFBB2:
+ 160 006e 9091 0000 		push r29
+ 161 0072 0097      		push r28
+ 162 0074 01F0      		in r28,__SP_L__
+  46:2.c           ****       		PORTD = 0x04;
+ 163               	FBB2
+ 164               	.LM3:
+ 165 0076 E2E3      	.LFBB2:
+ 166 0078 F0E0      		push r29
+ 167 007a 84E0      		push r28
+ 168 007c 8083      		in r28,__SP_L__
+ 169 007e 00C0      		in r29,__SP_H__
+ 170               	/* prologue: function */
+  47:2.c           ****         else
+  48:2.c           ****       		PORTD = 0x14;
+ 171               	28,__SP_L__
+ 172               		in r29,__SP_H__
+ 173 0080 E2E3      	/* prologue: function */
+ 174 0082 F0E0      	/* frame size = 0 */
+ 176 0086 8083      	.LM4:
+ 177 0088 00C0      		ldi r30,lo8(49)
+ 178               		ldi r31,hi8(49)
+ 179               		ldi r24,lo8(16)
+ 180               		st Z,r24
+ 182               	.LM5:
+ 183               		ldi r30,lo8(50)
+DEFINED SYMBOLS
+                            *ABS*:00000000 2.c
+C:\users\batch2\Temp/cczPbyLk.s:2      *ABS*:0000003f __SREG__
+C:\users\batch2\Temp/cczPbyLk.s:3      *ABS*:0000003e __SP_H__
+C:\users\batch2\Temp/cczPbyLk.s:4      *ABS*:0000003d __SP_L__
+C:\users\batch2\Temp/cczPbyLk.s:5      *ABS*:00000034 __CCP__
+C:\users\batch2\Temp/cczPbyLk.s:6      *ABS*:00000000 __tmp_reg__
+C:\users\batch2\Temp/cczPbyLk.s:7      *ABS*:00000001 __zero_reg__
+C:\users\batch2\Temp/cczPbyLk.s:73     .text:00000000 __vector_1
+                            *COM*:00000002 flag
+C:\users\batch2\Temp/cczPbyLk.s:121    .text:00000048 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

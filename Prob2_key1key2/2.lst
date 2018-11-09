@@ -1,0 +1,232 @@
+   1               		.file	"2.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  71               	.global	__vector_1
+  73               	__vector_1:
+   1:2.c           **** // ***********************************************************
+   2:2.c           **** //Prob.4.2......Write a code to toggle LED's on PORTB at the rate of 1 sec when 1 is pressed from t
+   3:2.c           **** 
+   4:2.c           **** // ***********************************************************
+   5:2.c           **** 
+   6:2.c           **** #include <avr\io.h>              // Most basic include files
+   7:2.c           **** #include <avr\interrupt.h>       // Add the necessary ones
+   8:2.c           **** #include <avr\signal.h>          // here
+   9:2.c           **** 
+  10:2.c           **** // Interrupt handler example for INT0
+  11:2.c           **** 
+  12:2.c           **** ISR(INT0_vect) {
+  74               	 r0,__SREG__
+  75               		push r0
+  76               		clr __zero_reg__
+  77 0000 1F92      		push r24
+  78 0002 0F92      		push r30
+  79 0004 0FB6      		push r31
+  80 0006 0F92      		push r29
+  81 0008 1124      		push r28
+  82 000a 8F93      		in r28,__SP_L__
+  83 000c EF93      		in r29,__SP_H__
+  84 000e FF93      	/* prologue: Signal */
+  85 0010 DF93      	/* frame size = 0 */
+  87 0014 CDB7      	.LM1:
+  88 0016 DEB7      		ldi r30,lo8(68)
+  89               		ldi r31,hi8(68)
+  90               		st Z,__zero_reg__
+  13:2.c           ****           TCNT2 =0;
+  91               	 r24
+  92               		push r30
+  93 0018 E4E4      		push r31
+  94 001a F0E0      		push r29
+  95 001c 1082      		push r28
+  14:2.c           ****           OCR2 = 122;
+  96               	bal	__vector_1
+  98 001e E3E4      	__vector_1:
+ 100 0022 8AE7      	.LM0:
+ 101 0024 8083      	.LFBB1:
+ 102               		push __zero_reg__
+  15:2.c           **** 
+  16:2.c           **** }
+ 103               	(0,11),8,8;;",128,0,0,0
+ 107 002a FF91      	.global	__vector_1
+ 109 002e 8F91      	__vector_1:
+ 111 0032 0FBE      	.LM0:
+ 112 0034 0F90      	.LFBB1:
+ 113 0036 1F90      		push __zero_reg__
+ 114 0038 1895      		push r0
+ 115               		in r0,__SREG__
+ 116               		push r0
+ 117               		clr __zero_reg__
+ 118               		push r24
+ 119               		push r30
+ 120               		push r31
+  17:2.c           **** 
+  18:2.c           **** ISR(INT1_vect) {
+ 121               	36,0,0,__vector_1
+ 122               	.global	__vector_1
+ 124 003a 1F92      	__vector_1:
+ 126 003e 0FB6      	.LM0:
+ 127 0040 0F92      	.LFBB1:
+ 128 0042 1124      		push __zero_reg__
+ 129 0044 8F93      		push r0
+ 130 0046 EF93      		in r0,__SREG__
+ 131 0048 FF93      		push r0
+ 132 004a DF93      		clr __zero_reg__
+ 133 004c CF93      		push r24
+ 134 004e CDB7      		push r30
+ 135 0050 DEB7      		push r31
+ 136               		push r29
+ 137               		push r28
+  19:2.c           ****           TCNT2 = 0;
+ 138               	bal	__vector_1
+ 140 0052 E4E4      	__vector_1:
+ 142 0056 1082      	.LM0:
+  20:2.c           ****           OCR2 = 244;
+ 143               	=(5,2)=s2low:(0,11),0,8;high:(0,11),8,8;;",128,0,0,0
+ 147 005c 84EF      	.global	__vector_1
+ 149               	__vector_1:
+  21:2.c           **** }
+ 150               	",130,0,0,0
+ 155 0066 EF91      	.global	__vector_1
+ 157 006a 0F90      	__vector_1:
+ 159 006e 0F90      	.LM0:
+ 160 0070 1F90      	.LFBB1:
+ 161 0072 1895      		push __zero_reg__
+ 162               		push r0
+ 163               		in r0,__SREG__
+ 164               		push r0
+ 165               		clr __zero_reg__
+ 166               		push r24
+ 167               		push r30
+  22:2.c           **** 
+  23:2.c           **** ISR(TIMER2_COMP_vect ){
+ 168               	1:F(0,15)",36,0,0,__vector_1
+ 169               	.global	__vector_1
+ 171 0074 1F92      	__vector_1:
+ 173 0078 0FB6      	.LM0:
+ 174 007a 0F92      	.LFBB1:
+ 175 007c 1124      		push __zero_reg__
+ 176 007e 8F93      		push r0
+ 177 0080 9F93      		in r0,__SREG__
+ 178 0082 AF93      		push r0
+ 179 0084 BF93      		clr __zero_reg__
+ 180 0086 EF93      		push r24
+ 181 0088 FF93      		push r30
+ 182 008a DF93      		push r31
+ 183 008c CF93      		push r29
+ 184 008e CDB7      		push r28
+ 185 0090 DEB7      		in r28,__SP_L__
+ 186               		in r29,__SP_H__
+ 187               	/* prologue: Signal */
+  24:2.c           **** 	
+  25:2.c           **** 	 PORTB ^= 1 ;
+ 188               	abn	68,0,12,.LM0-.LFBB1
+ 189               	.LM0:
+ 190 0092 A8E3      	.LFBB1:
+ 191 0094 B0E0      		push __zero_reg__
+ 192 0096 E8E3      		push r0
+ 193 0098 F0E0      		in r0,__SREG__
+ 194 009a 9081      		push r0
+ 195 009c 81E0      		clr __zero_reg__
+ 196 009e 8927      		push r24
+ 197 00a0 8C93      		push r30
+ 198               		push r31
+  26:2.c           **** }
+ 199               	36,0,0,__vector_1
+ 200               	.global	__vector_1
+ 202 00a4 DF91      	__vector_1:
+ 204 00a8 EF91      	.LM0:
+ 205 00aa BF91      	.LFBB1:
+ 206 00ac AF91      		push __zero_reg__
+ 207 00ae 9F91      		push r0
+ 208 00b0 8F91      		in r0,__SREG__
+ 209 00b2 0F90      		push r0
+ 210 00b4 0FBE      		clr __zero_reg__
+ 211 00b6 0F90      		push r24
+ 212 00b8 1F90      		push r30
+ 213 00ba 1895      		push r31
+ 214               		push r29
+ 215               		push r28
+ 216               		in r28,__SP_L__
+ 217               		in r29,__SP_H__
+ 218               	/* prologue: Signal */
+ 219               	/* frame size = 0 */
+  27:2.c           **** // ***********************************************************
+  28:2.c           **** // Main program
+  29:2.c           **** //
+  30:2.c           **** int main(void)
+  31:2.c           **** {
+ 220               	1
+ 221               	.LM0:
+ 222               	.LFBB1:
+ 223 00bc DF93      		push __zero_reg__
+ 224 00be CF93      		push r0
+ 225 00c0 CDB7      		in r0,__SREG__
+ 226 00c2 DEB7      		push r0
+ 227               		clr __zero_reg__
+ 228               		push r24
+  32:2.c           ****  	DDRB = 1;
+ 229               		"__vector_1:F(0,15)",36,0,0,__vector_1
+ 230               	.global	__vector_1
+ 232 00c6 F0E0      	__vector_1:
+ 234 00ca 8083      	.LM0:
+  33:2.c           **** 	DDRD = 0;
+ 235               	=(5,2)=s2low:(0,11),0,8;high:(0,11),8,8;;",128,0,0,0
+ 239 00d0 1082      	.global	__vector_1
+  34:2.c           **** 	PORTD |= (1<<PD2) | (1<<PD3);
+ 240               	winavr/lib/gcc/../../avr/include/avr/fuse.h",130,0,0,0
+ 245 00d8 F0E0      	.global	__vector_1
+ 247 00dc 8C60      	__vector_1:
+  35:2.c           **** 
+  36:2.c           **** 
+  37:2.c           **** 	TCNT2 =0;
+ 249               	:t(5,1)=(5,2)=s2low:(0,11),0,8;high:(0,11),8,8;;",128,0,0,0
+ 253 00e4 1082      	.global	__vector_1
+  38:2.c           **** 	OCR2 =0;
+ 254               	winavr/lib/gcc/../../avr/include/avr/fuse.h",130,0,0,0
+  39:2.c           **** 	TIMSK = (1<<OCIE2);
+ 259               	2,0,0,0
+  40:2.c           **** 	TCCR2 = (1<<CS22) | (1<<CS21)  | (1<<CS20) | (1<<WGM21) ;
+ 265               	2,0,0,0
+  41:2.c           **** 	GICR = (1<<INT0) |  (1<<INT1);
+ 271               	2,0,0,0
+  42:2.c           **** 	MCUCR |=  (1<<ISC11)  |  (1<<ISC01) | (1<<SE);
+ 277               	2,0,0,0
+ 283 010c 8081      	.global	__vector_1
+ 285 0110 8C93      	__vector_1:
+  43:2.c           **** 	sei();
+ 286               	",130,0,0,0
+ 291               	.global	__vector_1
+ 293               	__vector_1:
+  44:2.c           **** 	
+  45:2.c           ****    while(1)             // Infinite loop; define here the
+  46:2.c           ****     {
+  47:2.c           ****     	asm("sleep");
+ 294               	",130,0,0,0
+ 299               	.global	__vector_1
+ 301 0116 00C0      	__vector_1:
+ 303               	.LM0:
+ 304               	.LFBB1:
+ 305               		push __zero_reg__
+DEFINED SYMBOLS
+                            *ABS*:00000000 2.c
+C:\users\batch2\Temp/ccrGUs65.s:2      *ABS*:0000003f __SREG__
+C:\users\batch2\Temp/ccrGUs65.s:3      *ABS*:0000003e __SP_H__
+C:\users\batch2\Temp/ccrGUs65.s:4      *ABS*:0000003d __SP_L__
+C:\users\batch2\Temp/ccrGUs65.s:5      *ABS*:00000034 __CCP__
+C:\users\batch2\Temp/ccrGUs65.s:6      *ABS*:00000000 __tmp_reg__
+C:\users\batch2\Temp/ccrGUs65.s:7      *ABS*:00000001 __zero_reg__
+C:\users\batch2\Temp/ccrGUs65.s:73     .text:00000000 __vector_1
+C:\users\batch2\Temp/ccrGUs65.s:120    .text:0000003a __vector_2
+C:\users\batch2\Temp/ccrGUs65.s:167    .text:00000074 __vector_3
+C:\users\batch2\Temp/ccrGUs65.s:219    .text:000000bc main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

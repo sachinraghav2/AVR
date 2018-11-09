@@ -1,0 +1,127 @@
+   1               		.file	"4.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  71               	.global	__vector_3
+  73               	__vector_3:
+   1:4.c           **** // ***********************************************************
+   2:4.c           **** 
+   3:4.c           **** //Prob 4.4....Write a code to generate a PWM waveform.
+   4:4.c           **** 
+   5:4.c           **** // ***********************************************************
+   6:4.c           **** 
+   7:4.c           **** 
+   8:4.c           **** 
+   9:4.c           **** #include <avr\io.h>              // Most basic include files
+  10:4.c           **** #include <avr\interrupt.h>       // Add the necessary ones
+  11:4.c           **** #include <avr\signal.h>          // here
+  12:4.c           **** 
+  13:4.c           **** 
+  14:4.c           **** // Interrupt handler example for INT0
+  15:4.c           **** 
+  16:4.c           **** //
+  17:4.c           **** 
+  18:4.c           **** ISR(TIMER2_COMP_vect) {
+  74               	 r0,__SREG__
+  75               		push r0
+  76               		clr __zero_reg__
+  77 0000 1F92      		push r29
+  78 0002 0F92      		push r28
+  79 0004 0FB6      		in r28,__SP_L__
+  80 0006 0F92      		in r29,__SP_H__
+  81 0008 1124      	/* prologue: Signal */
+  82 000a DF93      	/* frame size = 0 */
+  83 000c CF93      	/* epilogue start */
+  85 0010 DEB7      	.LM1:
+  86               		pop r28
+  87               		pop r29
+  88               		pop r0
+  19:4.c           **** 
+  20:4.c           **** 
+  21:4.c           **** 
+  22:4.c           **** }
+  89               	n	68,0,22,.LM1-.LFBB1
+  90               	.LM1:
+  91 0012 CF91      		pop r28
+  92 0014 DF91      		pop r29
+  93 0016 0F90      		pop r0
+  94 0018 0FBE      		out __SREG__,r0
+  95 001a 0F90      		pop r0
+  96 001c 1F90      		pop __zero_reg__
+  97 001e 1895      		reti
+  99               	.Lscope1:
+ 101               	.global	main
+ 103               	main:
+  23:4.c           **** 
+  24:4.c           **** 
+  25:4.c           **** // ***********************************************************
+  26:4.c           **** 
+  27:4.c           **** // Main program
+  28:4.c           **** 
+  29:4.c           **** int main(void)
+  30:4.c           **** {
+ 104               	n
+ 105               	.global	main
+ 107 0020 DF93      	main:
+ 109 0024 CDB7      	.LM2:
+ 110 0026 DEB7      	.LFBB2:
+ 111               		push r29
+ 112               		push r28
+  31:4.c           **** 
+  32:4.c           **** 	DDRB = 0xFF;
+ 113               	FBB2
+ 114               	.LM2:
+ 115 0028 E7E3      	.LFBB2:
+ 116 002a F0E0      		push r29
+ 117 002c 8FEF      		push r28
+ 118 002e 8083      		in r28,__SP_L__
+  33:4.c           **** 	TCNT2 =0;
+ 119               	
+ 120               		push r29
+ 121 0030 E4E4      		push r28
+ 122 0032 F0E0      		in r28,__SP_L__
+ 123 0034 1082      		in r29,__SP_H__
+  34:4.c           **** 	OCR2 = 125;
+ 124               	28
+ 125               		in r28,__SP_L__
+ 126 0036 E3E4      		in r29,__SP_H__
+ 127 0038 F0E0      	/* prologue: function */
+ 128 003a 8DE7      	/* frame size = 0 */
+  35:4.c           **** 	TCCR2 = (1<<CS21) | (1<<WGM20) | (1<<WGM21) |(1<<COM20) | (1<<COM21);
+ 130               	 0 */
+ 132 003e E5E4      	.LM3:
+ 133 0040 F0E0      		ldi r30,lo8(55)
+ 134 0042 8AE7      		ldi r31,hi8(55)
+ 135 0044 8083      		ldi r24,lo8(-1)
+  36:4.c           **** 	TIMSK = (1<<OCIE2);
+ 136               	 r31,hi8(55)
+ 137               		ldi r24,lo8(-1)
+ 138 0046 E9E5      		st Z,r24
+ 140 004a 80E8      	.LM4:
+ 141 004c 8083      		ldi r30,lo8(68)
+ 142               		ldi r31,hi8(68)
+ 143 004e 00C0      		st Z,__zero_reg__
+ 145               	.LM5:
+ 146               		ldi r30,lo8(67)
+ 147               		ldi r31,hi8(67)
+DEFINED SYMBOLS
+                            *ABS*:00000000 4.c
+C:\users\batch2\Temp/ccCxrwEJ.s:2      *ABS*:0000003f __SREG__
+C:\users\batch2\Temp/ccCxrwEJ.s:3      *ABS*:0000003e __SP_H__
+C:\users\batch2\Temp/ccCxrwEJ.s:4      *ABS*:0000003d __SP_L__
+C:\users\batch2\Temp/ccCxrwEJ.s:5      *ABS*:00000034 __CCP__
+C:\users\batch2\Temp/ccCxrwEJ.s:6      *ABS*:00000000 __tmp_reg__
+C:\users\batch2\Temp/ccCxrwEJ.s:7      *ABS*:00000001 __zero_reg__
+C:\users\batch2\Temp/ccCxrwEJ.s:73     .text:00000000 __vector_3
+C:\users\batch2\Temp/ccCxrwEJ.s:103    .text:00000020 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
